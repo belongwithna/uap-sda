@@ -1,33 +1,8 @@
-#ifndef BIOSKOP_H
-#define BIOSKOP_H
+#ifndef KURSI_H
+#define KURSI_H
 
-#include "film.h"
-#include "kursi.h"
-#include "queue.h"
-#include "stack.h"
-
-class Bioskop {
-
-private:
-
-    FilmList* filmList;
-
-    Kursi* kursi;
-
-    TicketQueue* queue;
-
-    HistoryStack* history;
-
-public:
-
-    Bioskop(
-        FilmList* film,
-        Kursi* kursiObj,
-        TicketQueue* q,
-        HistoryStack* h
-    );
-
-    void pesanTiket();
-};
+void inisialisasiKursi(bool kursi[5][5]);
+void tampilKursi(const bool kursi[5][5]);
+bool pesanKursi(bool kursi[5][5], int baris, int kolom);
 
 #endif
