@@ -3,56 +3,39 @@
 
 using namespace std;
 
-Kursi::Kursi() {
-
+void inisialisasiKursi(bool kursi[5][5]) {
     for (int i = 0; i < 5; i++) {
         for (int j = 0; j < 5; j++) {
-            kursi[i][j] = 'O';
+            kursi[i][j] = false;
         }
     }
 }
 
-void Kursi::tampilKursi() {
+void tampilKursi(const bool kursi[5][5]) {
+    cout << "\n===== DENAH KURSI =====\n";
+    cout << "O = kosong, X = terisi\n\n";
 
-    cout << "\n===== DENAH KURSI =====\n\n";
+    cout << "    1 2 3 4 5\n";
+    cout << "   -----------\n";
 
     for (int i = 0; i < 5; i++) {
-
+        cout << i + 1 << " | ";
         for (int j = 0; j < 5; j++) {
-            cout << kursi[i][j] << " ";
+            cout << (kursi[i][j] ? 'X' : 'O') << ' ';
         }
-
-        cout << endl;
+        cout << '\n';
     }
 }
 
-bool Kursi::pesanKursi(int baris, int kolom) {
-
-    if (kursi[baris][kolom] == 'O') {
-
-        kursi[baris][kolom] = 'X';
-        return true;
-    }
-
-    return false;
-}
-
-bool Kursi::cariKursiKosong(int baris, int kolom) {
-
-    if (baris == 5)
+bool pesanKursi(bool kursi[5][5], int baris, int kolom) {
+    if (baris < 0 || baris >= 5 || kolom < 0 || kolom >= 5) {
         return false;
-
-    if (kolom == 5)
-        return cariKursiKosong(baris + 1, 0);
-
-    if (kursi[baris][kolom] == 'O') {
-
-        kursi[baris][kolom] = 'X';
-
-        cout << "Kursi otomatis dipilih.\n";
-
-        return true;
     }
 
-    return cariKursiKosong(baris, kolom + 1);
+    if (kursi[baris][kolom]) {
+        return false;
+    }
+
+    kursi[baris][kolom] = true;
+    return true;
 }
