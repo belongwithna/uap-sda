@@ -2,7 +2,6 @@
 #define FILM_H
 
 #include <string>
-
 using namespace std;
 
 struct Film {
@@ -11,6 +10,7 @@ struct Film {
     int harga;
     int umur;
     string jadwal;
+    bool kursi[5][5];
 };
 
 struct Node {
@@ -27,6 +27,9 @@ public:
 
     void tambahFilm(Film film);
     void tampilFilm();
+    void tampilFilmPage(int page);
+    int countFilm();
+    int totalHalaman();
     Film* cariFilm(int kode);
     void sortingFilm();
 };
