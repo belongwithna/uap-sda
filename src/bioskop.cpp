@@ -1,37 +1,47 @@
 #include "../include/bioskop.h"
+#include "../include/kursi.h"
 #include <iostream>
+#include <limits>
 
 using namespace std;
 
 Bioskop::Bioskop(
     FilmList* film,
-    Kursi* kursiObj,
     TicketQueue* q,
     HistoryStack* h
 ) {
-
     filmList = film;
-
-    kursi = kursiObj;
-
     queue = q;
-
     history = h;
 }
 
+void Bioskop::lihatKursiFilm() {
+    int kodeFilm;
+
+    cout << "Masukkan kode film: ";
+    cin >> kodeFilm;
+
+    Film* film = filmList->cariFilm(kodeFilm);
+
+    if (film == nullptr) {
+        cout << "Film tidak ditemukan.\n";
+        return;
+    }
+
+    cout << "\nFilm: " << film->judul << endl;
+    tampilKursi(film->kursi);
+}
+
 void Bioskop::pesanTiket() {
-
     string nama;
-
     int kode;
     int umur;
     int jumlah;
 
-    filmList->tampilFilm();
+    cout << "\n===== PEMESANAN TIKET =====\n";
 
-    cin.ignore();
-
-    cout << "\nNama Pemesan : ";
+    cout << "Nama Pemesan : ";
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
     getline(cin, nama);
 
     cout << "Kode Film    : ";
@@ -39,8 +49,7 @@ void Bioskop::pesanTiket() {
 
     Film* film = filmList->cariFilm(kode);
 
-    if (film == NULL) {
-
+    if (film == nullptr) {
         cout << "Film tidak ditemukan.\n";
         return;
     }
@@ -49,73 +58,60 @@ void Bioskop::pesanTiket() {
     cin >> umur;
 
     if (film->umur >= 18 && umur < 18) {
-
-        cout << "\nAKSES DITOLAK!\n";
-        cout << "Film ini khusus usia "
-             << film->umur
-             << "+\n";
-
+        cout << "\nPERINGATAN!\n";
+        cout << "Film ini khusus usia " << film->umur << "+\n";
         return;
     }
 
     cout << "Jumlah Tiket : ";
     cin >> jumlah;
 
+    if (jumlah <= 0) {
+        cout << "Jumlah tiket tidak valid.\n";
+        return;
+    }
+
     int total = film->harga * jumlah;
 
     if (jumlah > 5) {
-
         cout << "\nDiskon 10% diterapkan!\n";
-
-        total -= total * 0.10;
+        total -= total / 10;
     }
 
     cout << "\n===== PILIH KURSI =====\n";
-
-    kursi->tampilKursi();
+    tampilKursi(film->kursi);
 
     for (int i = 0; i < jumlah; i++) {
-
         int baris, kolom;
 
         cout << "\nKursi ke-" << i + 1 << endl;
-
-        cout << "Baris : ";
+        cout << "Baris (1-5) : ";
         cin >> baris;
-
-        cout << "Kolom : ";
+        cout << "Kolom (1-5) : ";
         cin >> kolom;
 
-        if (kursi->pesanKursi(baris - 1, kolom - 1)) {
-
-            cout << "Kursi berhasil dipesan.\n";
+        if (baris < 1 || baris > 5 || kolom < 1 || kolom > 5) {
+            cout << "Input kursi tidak valid.\n";
+            i--;
+            continue;
         }
-        else {
 
+        if (pesanKursi(film->kursi, baris - 1, kolom - 1)) {
+            cout << "Kursi berhasil dipesan.\n";
+        } else {
             cout << "Kursi sudah terisi.\n";
             i--;
         }
     }
 
-    queue->enqueue(
-        nama,
-        film->judul,
-        jumlah
-    );
-
-    history->push(
-        nama,
-        film->judul,
-        total
-    );
+    queue->enqueue(nama, film->judul, jumlah);
+    history->push(nama, film->judul, total);
 
     cout << "\n========== TIKET ==========\n";
-
     cout << "Nama      : " << nama << endl;
     cout << "Film      : " << film->judul << endl;
     cout << "Jadwal    : " << film->jadwal << endl;
     cout << "Jumlah    : " << jumlah << endl;
     cout << "Total     : Rp " << total << endl;
-
     cout << "===========================\n";
 }
