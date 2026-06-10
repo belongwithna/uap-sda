@@ -180,7 +180,7 @@ uap-sda/
 │   ├── stack.cpp
 │   └── utils.cpp
 │
-└── README.md
+└── Readme.md
 ```
 
 ---
@@ -391,9 +391,3 @@ Kelompok 10
 Project: Sistem Pemesanan Tiket Bioskop
 
 Bahasa: C++
-
----
-
-# 📜 Lisensi
-
-Project ini dibuat untuk keperluan pembelajaran dan tugas akhir praktikum.
