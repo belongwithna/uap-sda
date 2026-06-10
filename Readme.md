@@ -386,7 +386,7 @@ Project dapat digunakan sebagai studi kasus implementasi struktur data dan OOP p
 
 # 👨‍💻 Author
 
-Kelompok 10
+Kelompok 5
 
 Project: Sistem Pemesanan Tiket Bioskop
 
