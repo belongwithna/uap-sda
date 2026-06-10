@@ -160,7 +160,7 @@ Film dapat diurutkan berdasarkan jadwal tayang menggunakan algoritma Bubble Sort
 # 🧩 Struktur Folder Project
 
 ```txt
-bioskop-app/
+uap-sda/
 │
 ├── main.cpp
 │
